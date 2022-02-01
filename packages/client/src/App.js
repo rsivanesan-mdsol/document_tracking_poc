@@ -21,6 +21,27 @@ function MySidebar() {
         >
           <>Documents</>
         </Sidebar.Item>
+        <Sidebar.Item
+          icon={<Icon name='overview' className="icon-large" />}
+          onClick={() => {}}
+          active={true}
+        >
+          <>Overview</>
+        </Sidebar.Item>
+        <Sidebar.Item
+          icon={<Icon name='settings' className="icon-large" />}
+          onClick={() => {}}
+          active={true}
+        >
+          <>Settings</>
+        </Sidebar.Item>
+        <Sidebar.Item
+          icon={<Icon name='user' className="icon-large" />}
+          onClick={() => {}}
+          active={true}
+        >
+          <>Enrollment</>
+        </Sidebar.Item>
       <div className="btn-collapse close-btn">
         <button
           type="button"
