@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '@mdsol/lego/lib/Sidebar';
 import Icon from '@mdsol/lego/lib/Icon';
+import CollapsePanel from '@mdsol/lego/lib/CollapsePanel';
 import '@mdsol/sandman/assets/platform.css';
 import '@mdsol/sandman/assets/jquery.js';
 import '@mdsol/sandman/assets/platform-jquery.js';
@@ -64,6 +65,13 @@ function MySidebar() {
 }
 
 function App() {
+  const [tableData, setData] = useState([]);
+  const [expanded, setExpanded] = useState(false);
+  useEffect(() => {
+    fetch('http://localhost:8080/api/mytest')
+        .then(response => response.json())
+        .then(data => setData(data));
+  }, []);
   return (
     <div className="App">
       <SidebarLayout mainContentClassName=" " sidebar={<MySidebar />}>
@@ -97,13 +105,17 @@ function App() {
                 </tr>
               </thead>
               <tbody>
-              <tr>
-                <td className="text-align-left">Name</td>
-                <td className="text-align-left">Name</td>
-                <td className="text-align-left">Name</td>
-                <td className="text-align-left">Name</td>
-                <td className="text-align-left">Name</td>
-              </tr>
+              {
+                tableData && tableData.map((eachData) =>
+                <tr>
+                  <td className="text-align-left"><Icon name={eachData.type} className="icon-large" /></td>
+                  <td className="text-align-left">{eachData.country}</td>
+                  <td className="text-align-left">{eachData.site}</td>
+                  <td className="text-align-left">{eachData.name}</td>
+                  <td className="text-align-left">{eachData.id}</td>
+                </tr>
+                )
+              }
               </tbody>
             </table>
           </div>
