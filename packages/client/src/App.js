@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import Sidebar from '@mdsol/lego/lib/Sidebar';
 import Icon from '@mdsol/lego/lib/Icon';
 import CollapsePanel from '@mdsol/lego/lib/CollapsePanel';
@@ -10,6 +11,7 @@ import TableHeaderCell from '@mdsol/lego/lib/TableHeaderCell';
 import logo from './logo.svg';
 import './App.css';
 import SidebarLayout from '@mdsol/lego/lib/SidebarLayout';
+import fetchDocuments from './actions/fetchDocumentsActions';
 
 function MySidebar() {
   const [collapse, onCollapse] = useState(true);
@@ -64,13 +66,12 @@ function MySidebar() {
   )
 }
 
-function App() {
-  const [tableData, setData] = useState([]);
+function App({documentsData,fetchDocuments}) {
+  console.log('render', documentsData.documents);
+  const tableData = documentsData.documents;
   const [expanded, setExpanded] = useState(false);
   useEffect(() => {
-    fetch('http://localhost:8080/api/mytest')
-        .then(response => response.json())
-        .then(data => setData(data));
+        fetchDocuments();
   }, []);
   return (
     <div className="App">
@@ -125,4 +126,17 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    documentsData: state.documents
+  }
+}
+
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchDocuments: () => dispatch(fetchDocuments())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
